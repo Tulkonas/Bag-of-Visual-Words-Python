@@ -59,7 +59,7 @@ class BOVHelpers:
 					idx = kmeans_ret[old_count+j]
 				self.mega_histogram[i][idx] += 1
 			old_count += l
-		print "Vocabulary Histogram Generated"
+		print("Vocabulary Histogram Generated")
 
 	def standardize(self, std=None):
 		"""
@@ -73,7 +73,7 @@ class BOVHelpers:
 			self.scale = StandardScaler().fit(self.mega_histogram)
 			self.mega_histogram = self.scale.transform(self.mega_histogram)
 		else:
-			print "STD not none. External STD supplied"
+			print("STD not none. External STD supplied")
 			self.mega_histogram = std.transform(self.mega_histogram)
 
 	def formatND(self, l):
@@ -94,25 +94,25 @@ class BOVHelpers:
 
 
 		"""
-		print "Training SVM"
-		print self.clf
-		print "Train labels", train_labels
+		print("Training SVM")
+		print(self.clf)
+		print("Train labels" + train_labels)
 		self.clf.fit(self.mega_histogram, train_labels)
-		print "Training completed"
+		print("Training completed")
 
 	def predict(self, iplist):
 		predictions = self.clf.predict(iplist)
 		return predictions
 
 	def plotHist(self, vocabulary = None):
-		print "Plotting histogram"
+		print("Plotting histogram")
 		if vocabulary is None:
 			vocabulary = self.mega_histogram
 
 		x_scalar = np.arange(self.n_clusters)
 		y_scalar = np.array([abs(np.sum(vocabulary[:,h], dtype=np.int32)) for h in range(self.n_clusters)])
 
-		print y_scalar
+		print(y_scalar)
 
 		plt.bar(x_scalar, y_scalar)
 		plt.xlabel("Visual Word Index")
@@ -138,10 +138,10 @@ class FileHelpers:
 		count = 0
 		for each in glob(path + "*"):
 			word = each.split("/")[-1]
-			print " #### Reading image category ", word, " ##### "
+			print(" #### Reading image category "+ word + " ##### ")
 			imlist[word] = []
 			for imagefile in glob(path+word+"/*"):
-				print "Reading file ", imagefile
+				print("Reading file "+ imagefile)
 				im = cv2.imread(imagefile, 0)
 				imlist[word].append(im)
 				count +=1 

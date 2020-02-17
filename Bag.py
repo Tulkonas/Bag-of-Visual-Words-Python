@@ -35,7 +35,7 @@ class BOV:
         label_count = 0 
         for word, imlist in self.images.iteritems():
             self.name_dict[str(label_count)] = word
-            print "Computing Features for ", word
+            print("Computing Features for "+ word)
             for im in imlist:
                 # cv2.imshow("im", im)
                 # cv2.waitKey()
@@ -69,8 +69,8 @@ class BOV:
         """
 
         kp, des = self.im_helper.features(test_img)
-        # print kp
-        print des.shape
+        # print(kp)
+        print(des.shape)
 
         # generate vocab for test image
         vocab = np.array( [[ 0 for i in range(self.no_clusters)]])
@@ -85,7 +85,7 @@ class BOV:
         for each in test_ret:
             vocab[0][each] += 1
 
-        print vocab
+        print(vocab)
         # Scale the features
         vocab = self.bov_helper.scale.transform(vocab)
 
@@ -110,19 +110,19 @@ class BOV:
         predictions = []
 
         for word, imlist in self.testImages.iteritems():
-            print "processing " ,word
+            print("processing " + word)
             for im in imlist:
                 # print imlist[0].shape, imlist[1].shape
-                print im.shape
+                print(im.shape)
                 cl = self.recognize(im)
-                print cl
+                print(cl)
                 predictions.append({
                     'image':im,
                     'class':cl,
                     'object_name':self.name_dict[str(int(cl[0]))]
                     })
 
-        print predictions
+        print(predictions)
         for each in predictions:
             # cv2.imshow(each['object_name'], each['image'])
             # cv2.waitKey()
@@ -147,7 +147,7 @@ if __name__ == '__main__':
     parser.add_argument('--test_path', action="store", dest="test_path", required=True)
 
     args =  vars(parser.parse_args())
-    print args
+    print(args)
 
     
     bov = BOV(no_clusters=100)
